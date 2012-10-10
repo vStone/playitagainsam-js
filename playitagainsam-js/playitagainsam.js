@@ -116,6 +116,10 @@ PIAS.Player.prototype.loadEvents = function(events, cb) {
         //  Decompose READ events into individual characters.
         //  Split WRITE events into sensible-sized chunks.
         if(event.act == "ECHO") {
+            this.events.push({act: "WRITE",
+                              term: event.term,
+                              data: event.data })
+/*
             for(var j=0; j<event.data.length; j++) {
                 this.events.push({act: "READ",
                                   term: event.term,
@@ -124,6 +128,7 @@ PIAS.Player.prototype.loadEvents = function(events, cb) {
                                   term: event.term,
                                   data: event.data.charAt(j)})
             }
+            */
         } else if(event.act == "READ") {
             for(var j=0; j<event.data.length; j++) {
                 this.events.push({act: "READ",

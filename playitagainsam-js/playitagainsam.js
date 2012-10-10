@@ -51,6 +51,7 @@ PIAS.Player = function (container) {
     this.container.empty();
     this.events = [];
     this.current_event = 0;
+    this.finished = false;
     this.done_callback = null;
     this.terminals = {};
     this.container.addClass("pias-container");
@@ -155,11 +156,13 @@ PIAS.Player.prototype.dispatchNextEvent = function() {
     var self = this;
     var moveToNextEvent = function() { self.moveToNextEvent(); }
     if(this.current_event >= this.events.length) {
+        this.finished = true
         if(this.done_callback) {
             this.done_callback(null);
             delete this.done_callback;
         }
     } else {
+        this.finished = false
         var event = this.events[this.current_event];
         if (event.act == "PAUSE") {
             var duration = Math.round(event.duration * 1000);
@@ -285,7 +288,6 @@ PIAS.Terminal.prototype.write = function(data, cb) {
         cb(null);
     }});
 }
-
 
 PIAS.Terminal.prototype.resize = function(size, cb) {
     var self = this;
